@@ -3,44 +3,40 @@ Entity Extraction from PDF files using spacy NLP model
 
 The extraction of information such as persons name, organisation, adresses, events, year, keywords are necessary for anonimty check of the text, to classify or cluster text etc.
 
-#assigning the NLP model
+# NLP model
 
-#https://spacy.io/usage/models
+This project uses SpaCy for natural language processing.
 
-#you need to download the spacy model before starting this step. 
+# Requirements
 
-#More info on the website of spacy to download spacy model. 
+You need to download the SpaCy model before starting this project. More information can be found on the SpaCy website.
 
-#You can also load your own custom made model if you want
+You will also need pdfplumber to process PDF files.
 
-#creation of a dataframe to include the columns 
+# Setup
 
-#input files path where your pdf files are
+Install the required libraries:
 
-#reading the path
+Download the SpaCy model:
 
-#looping over the pdf files
+Replace <model name> with the name of the desired model (e.g. en_core_web_sm).
 
-#if the filename is clear and distinct
-
-#Extracting the basename of the file
-
-#Extract the filename from the basename of the file
+Set the input file path:
     
-#if the filename is not the official name  of the application
+# Usage
 
-#filename="DMP_"+str(i)
+Run the script
     
-#using pdfplumber for processing the pdf files
-   
-#Load SpaCy Model
+The script will loop through all PDF files in the input_path directory, extract the entities and labels using the SpaCy model, and store the results in a dataframe.
+    
+The dataframe will include the following columns:
 
-#initialize entities and labels variables
+    filename: the name of the PDF file
 
-#collecting the entities and the corresponding labels of the file in the loop in a dataframe
+    entity: the entity identified in the text
 
-#assigning all the datatypes within df as string
+    label: the label assigned to the entity by the SpaCy model
+    
+Duplicate rows will be removed from the dataframe.
 
-#dropping the duplicates
-
-#appending data of the file in the loop 
+The resulting dataframe can be accessed as a Pandas DataFrame object named df. All data in the dataframe will be stored as strings.
