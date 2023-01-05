@@ -19,7 +19,7 @@ Install the required libraries:
 
 Download the SpaCy model:
 
-Replace <model name> with the name of the desired model (e.g. en_core_web_sm).
+    Replace <model name> with the name of the desired model (e.g. en_core_web_sm).
 
 Set the input file path:
     
@@ -31,12 +31,12 @@ The script will loop through all PDF files in the input_path directory, extract 
     
 The dataframe will include the following columns:
 
-    filename: the name of the PDF file
+    'filename': the name of the PDF file
 
-    entity: the entity identified in the text
+    'entity': the entity identified in the text
 
-    label: the label assigned to the entity by the SpaCy model
+    'label': the label assigned to the entity by the SpaCy model
     
 Duplicate rows will be removed from the dataframe.
 
-The resulting dataframe can be accessed as a Pandas DataFrame object named df. All data in the dataframe will be stored as strings.
+The resulting dataframe can be accessed as a Pandas DataFrame object named 'df'. All data in the dataframe will be stored as strings.
