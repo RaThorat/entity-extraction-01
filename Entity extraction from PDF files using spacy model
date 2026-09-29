@@ -14,7 +14,7 @@ nlp_model = spacy.load("en_core_web_sm")
 df_PA4 = pd.DataFrame(columns=['Text No.', 'Entities', 'Labels'])
 
 # Inputbestanden pad
-files_path = 'C:/Users/rthorrat/Documents/pdf_files_folder'
+files_path = 'C:/Users/Documents/pdf_files_folder'
 read_files = glob.glob(os.path.join(files_path, "*.pdf")) 
 
 # Lijst om tijdelijke DataFrames in te verzamelen voor snellere verwerking
