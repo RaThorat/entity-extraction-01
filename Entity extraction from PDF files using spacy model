@@ -1,0 +1,65 @@
+#importing necessary modules
+import spacy
+import os
+import glob
+import pandas as pd
+import pdfplumber
+from pathlib import Path
+
+
+# Laad het SpaCy model
+nlp_model = spacy.load("en_core_web_sm")
+
+# Creatie van de hoofd-DataFrame
+df_PA4 = pd.DataFrame(columns=['Text No.', 'Entities', 'Labels'])
+
+# Inputbestanden pad
+files_path = 'C:/Users/rthorrat/Documents/pdf_files_folder'
+read_files = glob.glob(os.path.join(files_path, "*.pdf")) 
+
+# Lijst om tijdelijke DataFrames in te verzamelen voor snellere verwerking
+df_list = []
+
+# Looping over de pdf-bestanden
+for file_path in read_files:
+    # Haal de bestandsnaam zonder extensie op
+    filename = Path(file_path).stem
+    
+    text = ''
+    # Open en extraheer tekst uit de PDF
+    with pdfplumber.open(file_path) as pdf:
+        for pdf_page in pdf.pages:
+            single_page_text = pdf_page.extract_text()
+            if single_page_text:  # Controleer of de pagina tekst bevat
+                text = text + '\n' + single_page_text
+                
+    # Vervang regeleinden door spaties
+    tx = "  ".join(text.split('\n'))
+    
+    # Verwerk de tekst met SpaCy
+    docs = nlp_model(tx)
+    
+    # Initialiseer lijsten voor entiteiten en labels
+    entities = []
+    labels = []
+    
+    for ent in docs.ents:
+        entities.append(ent.text)  # .append() in plaats van .concat(), en .text toegevoegd
+        labels.append(ent.label_)  # .append() in plaats van .concat()
+        
+    # Maak een tijdelijke DataFrame voor dit bestand
+    df = pd.DataFrame({'Text No.': filename, 'Entities': entities, 'Labels': labels})
+    
+    # Zet datatype om naar string en verwijder duplicaten
+    df = df.astype('str')
+    df.drop_duplicates(subset=['Text No.', 'Entities', 'Labels'], keep="first", inplace=True)
+    
+    # Voeg toe aan de verzamellijst
+    df_list.append(df)
+
+# Combineer alle DataFrames in één keer (vervangt het verouderde .append())
+if df_list:
+    df_PA4 = pd.concat(df_list, ignore_index=True)
+
+# Toon het resultaat in tabelvorm in de console/notebook
+print(df_PA4.head())
